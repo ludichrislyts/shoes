@@ -50,27 +50,35 @@
      // this page renders after user enters a new brand   
     $app->post("/brand_added", function() use ($app){
         $name = $_POST['name'];
+        $brand_to_add = new Brand($name);
+        // get id# if brand already exists. 
+        $id = $brand_to_add->save();
+        if($id == false){
+            $brands = Brand::getAll();
+            return $app['twig']->render("brands.html.twig", array('brands' => $brands));            
+        }else{
+            $dummy_store = [];
+            $brand = Brand::findById($id);
+            return $app['twig']->render("entry_exists.html.twig", array('brand' => $brand, 'store' => $dummy_store));
+        }
+            
         //check if brand already exists -- save() returns true if new brand
         // if exists, display modified home page (entry_exists) with links to 
         // either store or brand main page
-        $brand_check = null;
-        $brand_check = $GLOBALS['DB']->query("SELECT * FROM brands WHERE brands.name = '{$name}';");
-        // if database doesn't return an entry, add
-        if($brand_check == null){
-            $new_brand = new Brand($name);
-            $new_brand->save();
-            $brands = Brand::getAll();
-            return $app['twig']->render("brands.html.twig", array('brands' => $brands));
-        // if exists, let the user know
-        }else{
-            foreach($brand_check as $bnd){
-                $old_name = $bnd['name'];
-                $old_id = $bnd['id'];
-                $old_brand = new Brand($old_name, $old_id);                
-            }            
-            $dummy_store = [];
-            return $app['twig']->render("entry_exists.html.twig", array('brand' => $old_brand, 'store' => $dummy_store));
-        }
+ 
+        // $brand_check = null;
+        // $brand_check = $GLOBALS['DB']->query("SELECT * FROM brands WHERE brands.name = '{$name}';");
+        // // if database doesn't return an entry, add
+        // if($brand_check == null){
+        //     $new_brand = new Brand($name);
+        //     $new_brand->save();
+        // // if exists, let the user know
+        // }else{
+        //     foreach($brand_check as $bnd){
+        //         $old_name = $bnd['name'];
+        //         $old_id = $bnd['id'];
+        //         $old_brand = new Brand($old_name, $old_id);                
+        // }            
     });
  /////////////////////////////////////////////////////////////////////   
  /////////////////////////////////////////////////////////////////////  
@@ -81,22 +89,22 @@
         //check if store already exists -- save() returns true if new store
         // if exists, display modified home page (entry_exists) with links to 
         // either store or store main page
-        $store_check = null;
-        $store_check = $GLOBALS['DB']->query("SELECT * FROM stores WHERE stores.name = '{$name}';");
-        var_dump($store_check);
+        $store_check = 0;
+        $find_store = $GLOBALS['DB']->query("SELECT * FROM stores WHERE stores.name = '{$name}';");
+        foreach($find_store as $sto){
+            $old_name = $sto['name'];
+            $old_id = $sto['id'];
+            $old_store = new Store($old_name, $old_id);
+            ++$store_check;                
+        }            
         // if database doesn't return an entry, add
-        if(in_array($name, $store_check) == false){
+        if($store_check == 0){
             $new_store = new Store($name);
             $new_store->save();
             $stores = Store::getAll();
             return $app['twig']->render("stores.html.twig", array('stores' => $stores));
         // if exists, let the user know
         }else{
-            foreach($store_check as $sto){
-                $old_name = $sto['name'];
-                $old_id = $sto['id'];
-                $old_store = new Store($old_name, $old_id);                
-            }            
             $dummy_brand = [];
             return $app['twig']->render("entry_exists.html.twig", array('store' => $old_store, 'brand' => $dummy_brand));
         }

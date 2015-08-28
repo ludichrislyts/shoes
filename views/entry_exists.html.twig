@@ -14,10 +14,10 @@
             <div class="col-md-8">
 				{% if brand is not empty %}
                     <h2>Sorry, that brand already exists in our database!</h2>
-					<a href="/brand/{{ brand.getId }}">Go back to the {{ brand.getName() }} main page</a>
+					<a href="/brand/{{ brand.getId }}">Go to the {{ brand.getName() }} main page</a>
 				{% elseif store is not empty %}
                     <h2>Sorry, that store already exists in our database!</h2> 
-					<a href="/store/{{ store.getId }}">Go back to the {{ store.getName() }} main page</a>
+					<a href="/store/{{ store.getId }}">Go to the {{ store.getName() }} main page</a>
 				{% endif %}
 					
 					

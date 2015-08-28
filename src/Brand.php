@@ -32,17 +32,21 @@
 	
 		function save()
 		{
-			// $brand_check = null;
-			// $brand_check = $GLOBALS['DB']->query("SELECT * FROM brands WHERE brands.name = '{$this->getName()}';");
-			// var_dump($brand_check);
-			// if($brand_check == null){
+			//check database for existing name. if not returned, add brand.
+			// if name is found, return brand id#
+			$brand_check = null;
+			$brand_check = $GLOBALS['DB']->query("SELECT * FROM brands WHERE brands.name = '{$this->getName()}';");
+			//var_dump($brand_check);
+			if($brand_check == null){
 				$GLOBALS['DB']->exec("INSERT INTO brands (name) VALUES ('{$this->getName()}');");
 				$this->id = $GLOBALS['DB']->lastInsertId();
-			// 	return true;		
-			// }else{
-			// 	return false;
-			// }
-			
+				return false;		
+			}else{
+				foreach($brand_check as $brand){
+					$id = $brand['id'];
+					return $id;
+				}
+			}			
 		}
 		
 		function addStore($store_to_add)
