@@ -32,8 +32,20 @@
 	
 		function save()
 		{
-			$GLOBALS['DB']->exec("INSERT INTO stores (name) VALUES ('{$this->getName()}');");
-			$this->id = $GLOBALS['DB']->lastInsertId();
+			//check database for existing name. if not returned, add store.
+			// if name is found, return store id#
+			$store_check = null;
+			$store_check = $GLOBALS['DB']->query("SELECT * FROM stores WHERE stores.name = '{$this->getName()}';");
+			if($store_check == null){
+				$GLOBALS['DB']->exec("INSERT INTO stores (name) VALUES ('{$this->getName()}');");
+				$this->id = $GLOBALS['DB']->lastInsertId();
+				return false;				
+			}else{
+				foreach($store_check as $store){
+					$id = $store['id'];
+					return $id;
+				}
+			}
 		}
 		//////////////////////////////////////////////////////////
 		//////////////// need to change variable names ///////////

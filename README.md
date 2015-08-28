@@ -1,11 +1,11 @@
-# 
+# Shoe Stores
 
 ##### (8/28/15)
 
 #### Chris Lytsell
 
 ## Description
-
+A handy little app to list brands of shoes and the stores that sell them.
 
 
 ## Setup
@@ -13,6 +13,7 @@
 * Run composer install in Terminal from the project root folder.
 * Start the PHP server from Terminal in the /web folder.
 * Open a web browser and navigate to ```localhost:8000```.
+* using phpMyadmin, import the .sql files included in the project folder.
 
 ## Technologies Used
 
