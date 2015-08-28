@@ -1,12 +1,12 @@
-# University Registrar with MySQL
+# 
 
-##### App for a university registrar to keep track of students and courses. (8/25/15)
+##### (8/28/15)
 
 #### Chris Lytsell
 
 ## Description
 
-This application allows a university registrar to keep track of students by enrollment dates and courses taken.
+
 
 ## Setup
 * Clone the project using the link provided on Github.
