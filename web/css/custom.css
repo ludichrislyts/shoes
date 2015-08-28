@@ -1,0 +1,35 @@
+html, body {
+    height: 100%;
+    background: url('../../img/background.jpg') no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    color: #980D0D !important;
+    background-color: aquamarine;
+}
+div {
+    font-family: 'PT Sans', sans-serif;
+}
+li{
+    font-family: 'Indie Flower', cursive;
+}
+/* unvisited link */
+a:link {
+    color: #FF0000;
+}
+
+/* visited link */
+a:visited {
+    color: #bbb;
+}
+
+/* mouse over link */
+a:hover {
+    color: #FF0;
+}
+
+/* selected link */
+a:active {
+    color: #fff;
+}

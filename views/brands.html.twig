@@ -2,6 +2,7 @@
     <head>
         <title>Shoe Stores</title>
         <link href="css/custom.css" rel='stylesheet' type="text/css">
+         <link href="../css/custom.css" rel='stylesheet' type="text/css">
         <link href="../../css/custom.css" rel='stylesheet' type="text/css">
         <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
         <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'>
@@ -12,6 +13,25 @@
             <h1><center>Shoe Stores</center></h1>
 
             <div class="col-md-8">
+                <h2>Brand Catalogue</h2>
+                {% if brands is not empty %}
+                    <ul>
+                    {% for brand in brands %}
+                        <li><a href="/brand/{{ brand.getId }}">{{ brand.getName }}</a></li>
+                    {% endfor %}
+                    </ul>
+
+                {% else %}
+                    <p>The brand catalogue is empty.</p>
+                {% endif %}
+                <form action="/brand_added" method="post">
+					<div class="form-group">
+						<label for="name">Add Brand Name</label>
+						<input class="form-control" id="name" name="name" type="text" required autofocus>
+						<br>
+					</div>
+                    <button type="submit" class="btn-md">Add</button>
+                </form>
             </div>
 
             <div class="col-md-4">
