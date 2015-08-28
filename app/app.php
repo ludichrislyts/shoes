@@ -1,14 +1,14 @@
 <?php
     require_once __DIR__."/../vendor/autoload.php";
-    require_once __DIR__."/../src/Student.php";
-    require_once __DIR__."/../src/Course.php";
+    require_once __DIR__."/../src/Brand.php";
+    require_once __DIR__."/../src/Store.php";
 
     $app = new Silex\Application();
     $app['debug'] = true;
 
-    $server = 'mysql:host=localhost;dbname=univ_registrar';
+    $server = 'mysql:host=localhost;dbname=shoes';
     $username = 'root';
-    $password = '';
+    $password = 'root';
     $DB = new PDO($server, $username, $password);
 
     $app->register(new Silex\Provider\TwigServiceProvider(), array(

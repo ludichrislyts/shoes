@@ -6,15 +6,15 @@
 
     //All tests passed
     
-    require_once 'src/.php';
-    require_once 'src/.php';
+    require_once 'src/Store.php';
+    require_once 'src/Brand.php';
 
-    $server = 'mysql:host=localhost;dbname=univ_registrar_test';
+    $server = 'mysql:host=localhost;dbname=shoes';
     $username = 'root';
     $password = 'root';
     $DB = new PDO($server, $username, $password);
 
-    class CourseTest extends PHPUnit_Framework_TestCase
+    class StoreTest extends PHPUnit_Framework_TestCase
     {
         protected function tearDown()
 		{
