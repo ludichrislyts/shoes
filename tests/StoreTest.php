@@ -53,5 +53,19 @@
             //Assert
             $this->assertEquals($test_brand, $result[0]);
         }
+        
+        function test_findById()
+        {
+            //Arrange
+            $name = "Joes Shoe Shack";
+            $test_store = new Store($name);
+            $test_store->save();
+                        
+            //Act
+            $result = $test_store->findById($test_store->getId());
+            
+            //Assert
+            $this->assertEquals($test_store, $result);
+        }        
     }
 ?>

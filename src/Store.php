@@ -72,6 +72,18 @@
 			return $all_stores;
 		}
 		
+		static function findById($id)
+		{
+			$found = null;
+			$all_stores = Store::getAll();
+			foreach($all_stores as $store){
+				if($store->getId() == $id){
+					$found = $store;
+				}
+			}
+			return $found;
+		}		
+		
 		static function deleteAll()
 		{
 			$GLOBALS['DB']->exec("DELETE FROM stores;");

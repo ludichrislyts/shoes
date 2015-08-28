@@ -54,6 +54,20 @@
             //Assert
             $this->assertEquals($test_store, $result[0]);
         }
+        
+        function test_findById()
+        {
+            //Arrange
+            $name = "Flying Shoes";
+            $test_brand = new Brand($name);
+            $test_brand->save();
+                        
+            //Act
+            $result = $test_brand->findById($test_brand->getId());
+            
+            //Assert
+            $this->assertEquals($test_brand, $result);
+        }
 	}
         
 ?>
