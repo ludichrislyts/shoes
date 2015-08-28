@@ -1,0 +1,52 @@
+<html>
+    <head>
+        <title>Shoe Stores</title>
+        <link href="css/custom.css" rel='stylesheet' type="text/css">
+         <link href="../css/custom.css" rel='stylesheet' type="text/css">
+        <link href="../../css/custom.css" rel='stylesheet' type="text/css">
+        <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
+        <link rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'>
+    </head>
+    <body>
+        <div class="container">
+
+            <h1><center>Shoe Stores</center></h1>
+
+            <div class="col-md-8">
+                <h2>Store Index</h2>
+                {% if stores is not empty %}
+                    <ul>
+                    {% for store in stores %}
+                        <li><a href="/store/{{ store.getId }}">{{ store.getName }}</a></li>
+                    {% endfor %}
+                    </ul>
+
+                {% else %}
+                    <p>The store index is empty.</p>
+                {% endif %}
+                <form action="/store_added" method="post">
+					<div class="form-group">
+						<label for="name">Add Store Name</label>
+						<input class="form-control" id="name" name="name" type="text" autofocus>
+						<br>
+					</div>
+                    <button type="submit" class="btn-md">Add</button>
+                </form>
+            </div>
+
+            <div class="col-md-4">
+                <br>
+                <form action="/" method="get">
+                    <button type="submit" class="btn-lg" style="background-color:white; width:250px">HOME</button>
+                </form>
+                <form action="/brands" method="get">
+                    <button type="submit" class="btn-lg btn-danger" style="width:250px">View shoe brands</button>
+                </form>
+                <form action="/stores" method="get">
+                    <button type="submit" class="btn-lg btn-primary" style="width:250px">View shoe stores</button>
+                </form>
+            </div>
+
+        </div>
+    </body>
+</html>

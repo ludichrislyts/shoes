@@ -32,8 +32,17 @@
 	
 		function save()
 		{
-			$GLOBALS['DB']->exec("INSERT INTO brands (name) VALUES ('{$this->getName()}');");
-			$this->id = $GLOBALS['DB']->lastInsertId();
+			// $brand_check = null;
+			// $brand_check = $GLOBALS['DB']->query("SELECT * FROM brands WHERE brands.name = '{$this->getName()}';");
+			// var_dump($brand_check);
+			// if($brand_check == null){
+				$GLOBALS['DB']->exec("INSERT INTO brands (name) VALUES ('{$this->getName()}');");
+				$this->id = $GLOBALS['DB']->lastInsertId();
+			// 	return true;		
+			// }else{
+			// 	return false;
+			// }
+			
 		}
 		
 		function addStore($store_to_add)

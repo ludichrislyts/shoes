@@ -9,30 +9,30 @@
     <body>
         <div class="container">
 
-            <h1><center>Brand Catalogue</center></h1>
+            <h1><center>Store Index</center></h1>
 
             <div class="col-xs-8">
-                <h2>{{ brand.getName }} - Main Page</h2>
+                <h2>{{ store.getName }} - Main Page</h2>
 
-                {% if stores is not empty %}
-                    <h4>Stores that carry shoes by {{ brand.getName }}</h4>
+                {% if brands is not empty %}
+                    <h4>Brands that are carried by {{ store.getName }}:</h4>
                     <ul>
-                    {% for store in stores %}
-                        <li><a href="/store/{{ store.getId }}">{{ store.getName }}</a></li>
+                    {% for brand in brands %}
+                        <li><a href="/brand/{{ brand.getId }}">{{ brand.getName }}</a></li>
                     {% endfor %}
                     </ul>
 
                 {% else %}
-                    <p>Currently no stores carry this brand .</p>
+                    <p>This store currently carries no brands of shoes.</p>
                 {% endif %}
 
                 <br>
-                <h4>Have you seen this brand in a store not listed? Enter is here:</h4>
-                <form action="/brand/{{ brand.getId }}/add_store" method="post">
-                    <input id="id" name="id" type="hidden" value="{{ brand.getId() }}">
-                    <label for="name">Enter a new store:</label>
+                <h4>Did we miss something? If you've seen shoes for sale in this store, please let us know!:</h4>
+                <form action="/store/{{ store.getId }}/add_brand" method="post">
+                    <input id="id" name="id" type="hidden" value="{{ store.getId() }}">
+                    <label for="name">Enter a new brand:</label>
                     <input id="name" name="name" type="text">
-                    <button type="submit" class="btn-md">Add store</button>
+                    <button type="submit" class="btn-md">Add brand</button>
                 </form>
             <br>
             </div>
