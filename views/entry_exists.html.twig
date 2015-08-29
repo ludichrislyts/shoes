@@ -8,38 +8,34 @@
     </head>
     <body>
          <div class="container" id="main_display">
-
-            <h1><center>Shoe Stores</center></h1>
-
-            <div class="col-md-8">
+            <div class="col-md-8" id="col-display">
+                <h1>Shoe Central<h1>
+                <h2>Brand Catalogue</h2>
 				{% if brand is not empty %}
                     <h2>Sorry, that brand already exists in our database!</h2>
 					<a href="/brand/{{ brand.getId }}">Go to the {{ brand.getName() }} main page</a>
                     <br>
                     <a href="/brands">Go back to the main brands page</a>
 				{% elseif store is not empty %}
-                    <h2>Sorry, that store already exists in our database!</h2> 
+                    <h2>Sorry, that store already exists in our database!</h2>
 					<a href="/store/{{ store.getId }}">Go to the {{ store.getName() }} main page</a>
                     <br>
                     <a href="/stores">Go back to the main stores page</a>
 				{% endif %}
-					
-					
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-4" id="col-display">
                 <br>
                 <form action="/" method="get">
-                    <button type="submit" class="btn-lg" style="background-color:white; width:250px">HOME</button>
+                    <button type="submit" class="btn-lg" id="home_button">HOME</button>
                 </form>
                 <form action="/brands" method="get">
-                    <button type="submit" class="btn-lg btn-danger" style="width:250px">View shoe brands</button>
+                    <button type="submit" class="btn-lg btn-danger" id="brand_button">View shoe brands</button>
                 </form>
                 <form action="/stores" method="get">
-                    <button type="submit" class="btn-lg btn-primary" style="width:250px">View shoe stores</button>
+                    <button type="submit" class="btn-lg btn-primary" id="store_button">View shoe stores</button>
                 </form>
             </div>
-
         </div>
     </body>
 </html>

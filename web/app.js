@@ -1,3 +1,4 @@
+//This worked at some point, now it doesn't. Links to this file removed
 $.cergis = $.cergis || {};
 $.cergis.loadContent = function () {
 	$("a").on('click', function (e) {
@@ -8,7 +9,7 @@ $.cergis.loadContent = function () {
     $.ajax({
         url: pageUrl + '?type=ajax',
         success: function (data) {
-            $('#main-display').html(data);
+            $('#main_display').html(data);
             // hide ajax loader
             $('.ajax-loader').hide();
         }
@@ -22,7 +23,7 @@ $.cergis.backForwardButtons = function () {
         $.ajax({
             url: location.pathname + '?type=ajax',
             success: function (data) {
-                $('#main-display').html(data);
+                $('#main_display').html(data);
             }
         });
     });

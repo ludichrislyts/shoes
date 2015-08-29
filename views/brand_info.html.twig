@@ -8,12 +8,10 @@
 </head>
     <body>
          <div class="container" id="main_display">
-
-            <h1><center>Brand Catalogue</center></h1>
-
-            <div class="col-xs-8">
-                <h2>{{ brand.getName }} - Main Page</h2>
-
+            <div class="col-xs-8" id="col-display">
+                <h1>Shoe Central</h1>
+                <h2>Brand Catalogue</h2>
+                <h3>{{ brand.getName }} - Main Page</h3>
                 {% if stores is not empty %}
                     <h4>Stores that carry shoes by {{ brand.getName }}</h4>
                     <ul>
@@ -21,11 +19,9 @@
                         <li><a href="/store/{{ store.getId }}">{{ store.getName }}</a></li>
                     {% endfor %}
                     </ul>
-
                 {% else %}
                     <p>Currently no stores carry this brand .</p>
                 {% endif %}
-
                 <br>
                 <h4>Have you seen this brand in a store not listed? Enter it here:</h4>
                 <form action="/brand/{{ brand.getId }}/add_store" method="post">
@@ -47,8 +43,7 @@
                         <input type="text" name="new_name" id="new_name" required>
                         <button type="submit" class="btn-xs-primary">Update</button>
                     </form>
-                </div>                
-                
+                </div>
                 <div class="row" style="padding:15px">
                     <h4>Has this brand gone out of business?</h4>
                     <p>Take them off the shelves!</p>
@@ -57,25 +52,19 @@
                         <button type="submit" class="btn-xs-danger">Remove</button>
                     </form>
                 </div>
-                
-            
             </div>
-
-
-
-            <div class="col-md-4">
+            <div class="col-md-4" id="col-display">
                 <br>
                 <form action="/" method="get">
-                    <button type="submit" class="btn-lg" style="background-color:white; width:250px">HOME</button>
+                    <button type="submit" class="btn-lg" id="home_button">HOME</button>
                 </form>
                 <form action="/brands" method="get">
-                    <button type="submit" class="btn-lg btn-danger" style="width:250px">View shoe brands</button>
+                    <button type="submit" class="btn-lg btn-danger" id="brand_button">View shoe brands</button>
                 </form>
                 <form action="/stores" method="get">
-                    <button type="submit" class="btn-lg btn-primary" style="width:250px">View shoe stores</button>
+                    <button type="submit" class="btn-lg btn-primary" id="store_button">View shoe stores</button>
                 </form>
             </div>
-
-
+        </div>
     </body>
 </html>

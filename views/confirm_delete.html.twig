@@ -8,32 +8,32 @@
     </head>
     <body>
          <div class="container" id="main_display">
-            <h1><center>Shoe Stores</center></h1>
-            <div class="col-md-8">
+            <div class="col-md-8" id="col-display">
+            <h1>Shoe Central</h1>
+            <h2>Removal Complete</h2>
 				{% if brands == TRUE %}
                     <h2>{{ name }} has been deleted!</h2>
 					<a href="/brands">Go to the "Brands"" main page</a>
                     <br>
 				{% elseif stores == TRUE %}
-                    <h2>{{ name }} has been deleted!</h2> 
+                    <h2>{{ name }} has been deleted!</h2>
 					<a href="/stores">Go to the "Stores" main page</a>
                     <br>
 				{% endif %}
             </div>
 
-            <div class="col-md-4">
+            <div class="col-md-4" id="col-display">
                 <br>
                 <form action="/" method="get">
-                    <button type="submit" class="btn-lg" style="background-color:white; width:250px">HOME</button>
+                    <button type="submit" class="btn-lg" id="home_button">HOME</button>
                 </form>
                 <form action="/brands" method="get">
-                    <button type="submit" class="btn-lg btn-danger" style="width:250px">View shoe brands</button>
+                    <button type="submit" class="btn-lg btn-danger" id="brand_button">View shoe brands</button>
                 </form>
                 <form action="/stores" method="get">
-                    <button type="submit" class="btn-lg btn-primary" style="width:250px">View shoe stores</button>
+                    <button type="submit" class="btn-lg btn-primary" id="store_button">View shoe stores</button>
                 </form>
             </div>
-
         </div>
     </body>
 </html>

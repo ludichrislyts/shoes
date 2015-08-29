@@ -1,35 +1,35 @@
-<?php 
+<?php
 	class Brand
 	{
 		private $name;
 		private $id;
-		
+
 		function __construct($name, $id = null)
 		{
 			$this->name = $name;
 			$this->id = $id;
 		}
-		
+
 		function setName($new_name)
 		{
 			$this->name = (string) $new_name;
 		}
-	
+
 		function getName()
 		{
 			return $this->name;
 		}
-	
+
 		function setId($new_id)
 		{
 			$this->id = $new_id;
 		}
-		
+
 		function getId()
 		{
 			return $this->id;
 		}
-	
+
 		function save()
 		{
 			//check database for existing name. if not returned, add brand.
@@ -37,32 +37,32 @@
 			$brand_check = null;
 			$brand_check = Brand::findByName($this->getName());
 			if($brand_check == null){
-				$GLOBALS['DB']->exec("INSERT INTO brands (name) VALUES ('{$this->getName()}';");
+				$GLOBALS['DB']->exec("INSERT INTO brands (name) VALUES ('{$this->getName()}');");
 				$this->id = $GLOBALS['DB']->lastInsertId();
 				return false;
 			}else{
 				return $brand_check;
 			}
 		}
-		
+
 		function updateName($new_name)
 		{
 			$GLOBALS['DB']->exec("UPDATE brands SET name = '{$new_name}' WHERE id = {$this->getId()};");
 			$this->name = $new_name;
 		}
-		
+
 		function delete()
 		{
 			$GLOBALS['DB']->exec("DELETE FROM brands WHERE id = {$this->getid()};");
-			$GLOBALS['DB']->exec("DELETE FROM brands_stores 
+			$GLOBALS['DB']->exec("DELETE FROM brands_stores
 				WHERE brand_id = {$this->getId()};");
 		}
-		
+
 		function addStore($store_to_add)
 		{
 			$GLOBALS['DB']->exec("INSERT INTO brands_stores (brand_id, store_id) VALUES ({$this->getId()}, {$store_to_add->getId()});");
 		}
-		
+
 		function getStores()
 		{
 			$returned_stores = $GLOBALS['DB']->query("SELECT stores.* FROM brands JOIN brands_stores ON (brands.id = brands_stores.brand_id) JOIN stores ON (brands_stores.store_id = stores.id) WHERE brands.id = {$this->getId()};");
@@ -91,7 +91,7 @@
 			}
 			return $all_brands;
 		}
-		
+
 		static function findById($id)
 		{
 			$found = null;
@@ -103,7 +103,22 @@
 			}
 			return $found;
 		}
-		
+
+		//returns brand id
+		static function findByName($search_name)
+		{
+			$found_brand_id = null;
+			$db_brands = $GLOBALS['DB']->query("SELECT * FROM brands WHERE name = '{$search_name}';");
+			foreach($db_brands as $brand){
+				$name = $brand['name'];
+				if($name == $search_name){
+					$found_brand_id = $brand['id'];
+				}
+			}
+			return $found_brand_id;
+		}
+
+
 		static function deleteAll()
 		{
 			$GLOBALS['DB']->exec("DELETE FROM brands;");

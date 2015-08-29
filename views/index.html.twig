@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Shoe Stores</title>        
+        <title>Shoe Stores</title>
         <link href="css/custom.css" rel='stylesheet' type="text/css">
         <link href="../../css/custom.css" rel='stylesheet' type="text/css">
         <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>
@@ -8,28 +8,27 @@
     </head>
     <body>
         <div class="container" id="main_display">
-
-            <h1><center>Shoe Stores</center></h1>
-
-            <div class="col-md-8">
+            <div class="col-md-8" id="col-display" style="text-align:center ; padding-left: 100px; padding-right: 100px">
+            <h1>Shoe Central</h1>
+            <br>
+                <h2 >Welcome to Shoe Central!</h2>
+                <p style="font-size: 16">Shoe Central is the leading resourse for people searching for the perfect pair of shoes. At shoe central you can search for shoes by brand, or search for stores that carry the shoes of your dreams. No longer do you have to walk around in those old delapitated sneakers or pumps! Look around Shoe Central and get yourself some new shoes!</p>
             </div>
-            
 
-            <div class="col-md-4">
+
+            <div class="col-md-4" id="col-display">
                 <br>
                 <form action="/" method="get">
-                    <button type="submit" class="btn-lg" style="background-color:white; width:250px">HOME</button>
+                    <button type="submit" class="btn-lg" id="home_button">HOME</button>
                 </form>
                 <form action="/brands" method="get">
-                    <button type="submit" class="btn-lg btn-danger" style="width:250px">View shoe brands</button>
+                    <button type="submit" class="btn-lg btn-danger" id="brand_button">View shoe brands</button>
                 </form>
                 <form action="/stores" method="get">
-                    <button type="submit" class="btn-lg btn-primary" style="width:250px">View shoe stores</button>
+                    <button type="submit" class="btn-lg btn-primary" id="store_button">View shoe stores</button>
                 </form>
             </div>
 
         </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-        <script src="app.js"></script>
     </body>
 </html>
