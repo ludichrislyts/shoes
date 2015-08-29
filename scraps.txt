@@ -1,3 +1,21 @@
         <link href="css/custom.css" rel='stylesheet' type="text/css">
         <link href="../../css/custom.css" rel='stylesheet' type="text/css">
         <link href='http://fonts.googleapis.com/css?family=PT+Sans' rel='stylesheet' type='text/css'>href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css'>
+        
+                //check if brand already exists -- save() returns true if new brand
+        // if exists, display modified home page (entry_exists) with links to 
+        // either store or brand main page
+ 
+        // $brand_check = null;
+        // $brand_check = $GLOBALS['DB']->query("SELECT * FROM brands WHERE brands.name = '{$name}';");
+        // // if database doesn't return an entry, add
+        // if($brand_check == null){
+        //     $new_brand = new Brand($name);
+        //     $new_brand->save();
+        // // if exists, let the user know
+        // }else{
+        //     foreach($brand_check as $bnd){
+        //         $old_name = $bnd['name'];
+        //         $old_id = $bnd['id'];
+        //         $old_brand = new Brand($old_name, $old_id);                
+        // }            

@@ -62,23 +62,7 @@
             return $app['twig']->render("entry_exists.html.twig", array('brand' => $brand, 'store' => $dummy_store));
         }
             
-        //check if brand already exists -- save() returns true if new brand
-        // if exists, display modified home page (entry_exists) with links to 
-        // either store or brand main page
- 
-        // $brand_check = null;
-        // $brand_check = $GLOBALS['DB']->query("SELECT * FROM brands WHERE brands.name = '{$name}';");
-        // // if database doesn't return an entry, add
-        // if($brand_check == null){
-        //     $new_brand = new Brand($name);
-        //     $new_brand->save();
-        // // if exists, let the user know
-        // }else{
-        //     foreach($brand_check as $bnd){
-        //         $old_name = $bnd['name'];
-        //         $old_id = $bnd['id'];
-        //         $old_brand = new Brand($old_name, $old_id);                
-        // }            
+
     });
  /////////////////////////////////////////////////////////////////////   
  /////////////////////////////////////////////////////////////////////  
@@ -86,27 +70,16 @@
      // this page renders after user enters a new store   
     $app->post("/store_added", function() use ($app){
         $name = $_POST['name'];
-        //check if store already exists -- save() returns true if new store
-        // if exists, display modified home page (entry_exists) with links to 
-        // either store or store main page
-        $store_check = 0;
-        $find_store = $GLOBALS['DB']->query("SELECT * FROM stores WHERE stores.name = '{$name}';");
-        foreach($find_store as $sto){
-            $old_name = $sto['name'];
-            $old_id = $sto['id'];
-            $old_store = new Store($old_name, $old_id);
-            ++$store_check;                
-        }            
-        // if database doesn't return an entry, add
-        if($store_check == 0){
-            $new_store = new Store($name);
-            $new_store->save();
+        $new_store = new Store($name);
+        $id = $new_store->save();
+        var_dump($id);
+        if($id == false){
             $stores = Store::getAll();
             return $app['twig']->render("stores.html.twig", array('stores' => $stores));
-        // if exists, let the user know
         }else{
             $dummy_brand = [];
-            return $app['twig']->render("entry_exists.html.twig", array('store' => $old_store, 'brand' => $dummy_brand));
+            $store = Store::findById($id);
+            return $app['twig']->render("entry_exists.html.twig", array('store' => $store, 'brand' => $dummy_brand));
         }
     }); 
   /////////////////////////////////////////////////////////////////////   

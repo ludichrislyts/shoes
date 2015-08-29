@@ -34,17 +34,22 @@
 		{
 			//check database for existing name. if not returned, add store.
 			// if name is found, return store id#
-			$store_check = null;
-			$store_check = $GLOBALS['DB']->query("SELECT * FROM stores WHERE stores.name = '{$this->getName()}';");
-			if($store_check == null){
+			$store_check = 0;
+			$find_store = $GLOBALS['DB']->query("SELECT * FROM stores WHERE stores.name = '{$this->getName()}';");
+			foreach($find_store as $sto){
+				$name = $sto['name'];
+				$id = $sto['id'];
+				$store = new Store($name, $id);
+				++$store_check;                
+			}            
+			if($store_check == 0){
+				echo "saved";
 				$GLOBALS['DB']->exec("INSERT INTO stores (name) VALUES ('{$this->getName()}');");
 				$this->id = $GLOBALS['DB']->lastInsertId();
 				return false;				
 			}else{
-				foreach($store_check as $store){
-					$id = $store['id'];
-					return $id;
-				}
+				echo "already there";
+				return $id;
 			}
 		}
 		//////////////////////////////////////////////////////////
