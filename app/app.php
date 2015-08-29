@@ -42,9 +42,10 @@
     // INDIVIDUAL STORE ROUTE - DISPLAY THIS PAGE WHEN A USER CLICKS ON A STORE
     // Displays brands this store carries, option to add a brand
     $app->get("/store/{id}", function($id) use ($app){
+       $already_exists_message = false;// need this for the already added user message
        $store = Store::findById($id);
        $brands = $store->getBrands();
-       return $app['twig']->render("store_info.html.twig", array('store' => $store, 'brands' => $brands)); 
+       return $app['twig']->render("store_info.html.twig", array('store' => $store, 'brands' => $brands, 'message' => $already_exists_message)); 
     });
      // BRAND ADDED ROUTE - DISPLAY MAIN BRAND PAGE 
      // this page renders after user enters a new brand   
@@ -86,26 +87,62 @@
    /////////////////////////////////////////////////////////////////////   
     // ADDED STORE TO BRAND ROUTE - ADD STORE FROM USER AND REFRESH SINGLE BRAND PAGE
     // if user adds a store to this brand, add store and reload this page
+    //checks for multiple entries
     $app->post("/brand/{id}/add_store", function($id) use ($app){
-        // create new store from user entry "add store"
+        $already_exists_message;
         $name = $_POST['name'];
         $new_store = new Store($name);
-        $new_store->save();
         $brand = Brand::findById($id);
-        $brand->addStore($new_store);
+        //getting id if already saved
+        $exists = $new_store->save();
+        // if new entry, proceed as usual
+        if($exists == false){
+            $brand->addStore($new_store);
+        }else{
+        // if already saved, check for existence in join table as well   
+            $db_brands_stores = $brand->getStores();         
+            // making sure array is not empty
+            if(count($db_brands_stores) != 0){
+                foreach($db_brands_stores as $bnd){
+                    $id = $bnd->getId();
+                    if($exists == $id){
+                        $already_exists_message = true;
+                    }                     
+                }
+            }
+        }
         $stores = $brand->getStores();
-        return $app['twig']->render("brand_info.html.twig", array('stores' => $stores, 'brand' => $brand));
+        return $app['twig']->render("brand_info.html.twig", array('stores' => $stores, 'brand' => $brand, 'message' => $already_exists_message));     
         });    
     // ADD BRAND TO STORE ROUTE
     // ADDS BRAND TO STORE, REFRESHES INDIVIDUAL STORE PAGE
+    // checks for multiple entries
     $app->post("/store/{id}/add_brand", function($id) use ($app){
+        $already_exists_message = false;
         $name = $_POST['name'];
         $new_brand = new Brand($name);
-        $new_brand->save();
         $store = Store::findById($id);
-        $store->addBrand($new_brand);
+        //getting id if already saved
+        $exists = $new_brand->save();
+        // if new entry, proceed as usual
+        if($exists == false){
+            $store->addBrand($new_brand);
+        }else{
+            // if already saved, check for existence in join table as well
+            $db_brands_stores = $store->getBrands();  
+            // making sure array is not empty
+            if(count($db_brands_stores) != 0){
+                foreach($db_brands_stores as $sto){
+                    $id = $sto->getId();
+                    if($exists == $id){
+                        $already_exists_message = true;
+                    }                    
+                }                
+            }            
+        }
         $brands = $store->getBrands();
-        return $app['twig']->render("store_info.html.twig", array('store' => $store, 'brands' => $brands));
+        //var_dump($store);
+        return $app['twig']->render("store_info.html.twig", array('store' => $store, 'brands' => $brands, 'message' => $already_exists_message));
     });
 
 

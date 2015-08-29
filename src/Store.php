@@ -34,22 +34,25 @@
 		{
 			//check database for existing name. if not returned, add store.
 			// if name is found, return store id#
-			$store_check = 0;
-			$find_store = $GLOBALS['DB']->query("SELECT * FROM stores WHERE stores.name = '{$this->getName()}';");
-			foreach($find_store as $sto){
-				$name = $sto['name'];
-				$id = $sto['id'];
-				$store = new Store($name, $id);
-				++$store_check;                
-			}            
-			if($store_check == 0){
+			$store_check = null;
+		//////////////////////////////////////////////////////////		
+			//$store_check = 0;
+			$store_check = Store::findByName($this->getName());
+			// $find_store = $GLOBALS['DB']->query("SELECT * FROM stores WHERE stores.name = '{$this->getName()}';");
+			// foreach($find_store as $sto){
+			// 	$name = $sto['name'];
+			// 	$id = $sto['id'];
+			// 	$store = new Store($name, $id);
+			// 	++$store_check;                
+			// }            
+			if($store_check == null){
 				echo "saved";
 				$GLOBALS['DB']->exec("INSERT INTO stores (name) VALUES ('{$this->getName()}');");
 				$this->id = $GLOBALS['DB']->lastInsertId();
 				return false;				
 			}else{
 				echo "already there";
-				return $id;
+				return $store_check;
 			}
 		}
 		//////////////////////////////////////////////////////////
@@ -99,6 +102,19 @@
 				}
 			}
 			return $found;
+		}
+		//returns store id
+		static function findByName($search_name)
+		{
+			$found_store_id = null;
+			$db_stores = $GLOBALS['DB']->query("SELECT * FROM stores WHERE name = '{$search_name}';");
+			foreach($db_stores as $store){
+				$name = $store['name'];
+				if($name == $search_name){
+					$found_store_id = $store['id'];
+				}
+			}
+			return $found_store_id;
 		}		
 		
 		static function deleteAll()

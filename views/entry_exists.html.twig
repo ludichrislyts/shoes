@@ -15,9 +15,13 @@
 				{% if brand is not empty %}
                     <h2>Sorry, that brand already exists in our database!</h2>
 					<a href="/brand/{{ brand.getId }}">Go to the {{ brand.getName() }} main page</a>
+                    <br>
+                    <a href="/brands">Go back to the main brands page</a>
 				{% elseif store is not empty %}
                     <h2>Sorry, that store already exists in our database!</h2> 
 					<a href="/store/{{ store.getId }}">Go to the {{ store.getName() }} main page</a>
+                    <br>
+                    <a href="/stores">Go back to the main stores page</a>
 				{% endif %}
 					
 					

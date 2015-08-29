@@ -31,9 +31,12 @@
                 <form action="/store/{{ store.getId }}/add_brand" method="post">
                     <input id="id" name="id" type="hidden" value="{{ store.getId() }}">
                     <label for="name">Enter a new brand:</label>
-                    <input id="name" name="name" type="text">
+                    <input id="name" name="name" type="text" required>
                     <button type="submit" class="btn-md">Add brand</button>
                 </form>
+                {% if message == true %}
+                <h4 style="color:red">This store already carries that brand</h4>
+                {% endif %}
             <br>
             </div>
 
