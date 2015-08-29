@@ -35,16 +35,7 @@
 			//check database for existing name. if not returned, add store.
 			// if name is found, return store id#
 			$store_check = null;
-		//////////////////////////////////////////////////////////		
-			//$store_check = 0;
 			$store_check = Store::findByName($this->getName());
-			// $find_store = $GLOBALS['DB']->query("SELECT * FROM stores WHERE stores.name = '{$this->getName()}';");
-			// foreach($find_store as $sto){
-			// 	$name = $sto['name'];
-			// 	$id = $sto['id'];
-			// 	$store = new Store($name, $id);
-			// 	++$store_check;                
-			// }            
 			if($store_check == null){
 				echo "saved";
 				$GLOBALS['DB']->exec("INSERT INTO stores (name) VALUES ('{$this->getName()}');");
@@ -55,10 +46,19 @@
 				return $store_check;
 			}
 		}
-		//////////////////////////////////////////////////////////
-		//////////////// need to change variable names ///////////
-		//////////////////////////////////////////////////////////
-		//////////////////////////////////////////////////////////		
+		
+		function updateName($new_name)
+		{
+			$GLOBALS['DB']->exec("UPDATE stores SET name = '{$new_name}' WHERE id = {$this->getid()};");
+			$this->name = $new_name;
+		}
+		
+		function delete()
+		{
+			$GLOBALS['DB']->exec("DELETE FROM stores WHERE id = {$this->getId()};");
+			$GLOBALS['DB']->exec("DELETE FROM brands_stores WHERE store_id = {$this->getId()}';");
+		}
+
 		function addBrand($brand_to_add)
 		{
 			$GLOBALS['DB']->exec("INSERT INTO brands_stores (brand_id, store_id) VALUES ({$brand_to_add->getId()}, {$this->getId()});");
@@ -78,7 +78,7 @@
 			return $brands;
 		}
 		//////////////////////////////////////////////////////////
-		//////////////////////////////////////////////////////////
+		//////////////////// STATIC FUNCTIONS ////////////////////		//////////////////////////////////////////////////////////
 		static function getAll()
 		{
 			$returned_stores = $GLOBALS['DB']->query("SELECT * FROM stores;");

@@ -54,6 +54,19 @@
 			}			
 		}
 		
+		function updateName($new_name)
+		{
+			$GLOBALS['DB']->exec("UPDATE brands SET name = '{$new_name}' WHERE id = {$this->getId()};");
+			$this->name = $newName;
+		}
+		
+		function delete()
+		{
+			$GLOBALS['DB']->exec("DELETE FROM brands WHERE id = {$this->getid()};");
+			$GLOBALS['DB']->exec("DELETE FROM brands_stores 
+				WHERE brand_id = {$this->getId()};");
+		}
+		
 		function addStore($store_to_add)
 		{
 			$GLOBALS['DB']->exec("INSERT INTO brands_stores (brand_id, store_id) VALUES ({$this->getId()}, {$store_to_add->getId()});");
@@ -73,7 +86,7 @@
 			return $stores;
 		}
 		//////////////////////////////////////////////////////////
-
+		/////////////////// STATIC FUNCTIONS /////////////////////
 		//////////////////////////////////////////////////////////
 		static function getAll()
 		{

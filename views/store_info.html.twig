@@ -37,7 +37,15 @@
                 {% if message == true %}
                 <h4 style="color:red">This store already carries that brand</h4>
                 {% endif %}
-            <br>
+                <br>
+                <div class="row">
+                    <h5>Has this store gone out of business?</h5>
+                    <p>Remove it from the store index!</p>
+                    <form action="/store/{{ store.getId }}/delete" method="post">
+                        <input type="hidden" name="_method" value="delete">
+                        <button type="submit" class="btn-md-danger">Remove</button>
+                    </form>
+                </div>            
             </div>
 
 
