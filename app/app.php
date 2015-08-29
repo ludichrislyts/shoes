@@ -35,18 +35,18 @@
     // SINGLE BRAND ROUTE - DISPLAY SINGLE BRAND PAGE AND OPTION TO ADD A STORE
     // if user adds a store to this brand, add store and reload this page
      $app->get("/brand/{id}", function($id) use($app){
-       $already_exists_message = false;// need this for the already added user input       
+       $message = null;// need this for the already added user input       
         $brand = Brand::findById($id);
         $brand_stores = $brand->getStores();
-        return $app['twig']->render("brand_info.html.twig", array('brand' => $brand, 'stores' => $brand_stores, 'message' => $already_exists_message));
+        return $app['twig']->render("brand_info.html.twig", array('brand' => $brand, 'stores' => $brand_stores, 'message' => $message));
         });
     // INDIVIDUAL STORE ROUTE - DISPLAY THIS PAGE WHEN A USER CLICKS ON A STORE
     // Displays brands this store carries, option to add a brand
     $app->get("/store/{id}", function($id) use ($app){
-       $already_exists_message = false;// need this for the already added user message
+       $message = null;// need this for the already added user message
        $store = Store::findById($id);
        $brands = $store->getBrands();
-       return $app['twig']->render("store_info.html.twig", array('store' => $store, 'brands' => $brands, 'message' => $already_exists_message)); 
+       return $app['twig']->render("store_info.html.twig", array('store' => $store, 'brands' => $brands, 'message' => $message)); 
     });
      // BRAND ADDED ROUTE - DISPLAY MAIN BRAND PAGE 
      // this page renders after user enters a new brand   
@@ -70,7 +70,7 @@
         $name = $_POST['name'];
         $new_store = new Store($name);
         $id = $new_store->save();
-        var_dump($id);
+        //var_dump($id);
         if($id == false){
             $stores = Store::getAll();
             return $app['twig']->render("stores.html.twig", array('stores' => $stores));
@@ -110,8 +110,9 @@
                 }
             }
         }
-        // if not a new store, but not in the join table
-        if($already_exists_message == false){
+        // check for not a new store, but not in the join table
+        // add to join table
+        if($already_exists_message == false && $exists != FALSE){
             $store_to_add_to_join = Store::findById($exists);
             $brand->addStore($store_to_add_to_join);
         }
@@ -129,7 +130,9 @@
         //getting id if already saved
         $exists = $new_brand->save();
         // if new entry, proceed as usual
-        if($exists == false){
+        //var_dump($new_brand);
+        if($exists == FALSE){
+            echo "exists == false) ";
             $store->addBrand($new_brand);
         }else{
             // if already saved, check for existence in join table as well
@@ -144,9 +147,11 @@
                 }                
             }            
         }
-        // if not a new brand, but not in the join table
-        if($already_exists_message == false){
+        // check for not a new brand, but also not in the join table
+        // add to join table
+        if($already_exists_message == false && $exists != FALSE){
             $brand_to_add_to_join = Brand::findById($exists);
+            var_dump($brand_to_add_to_join);
             $store->addBrand($brand_to_add_to_join);
         }
         $brands = $store->getBrands();
@@ -155,30 +160,34 @@
     });
     // UPDATE BRAND ROUTE 
     // updates name and refreshes individual brand page with updated name
+    // must have 'message' variable to send to brand.info page 
     $app->patch("/brand/{id}/update", function($id) use ($app){
+        $message = null;        
         $brand_to_update = Brand::findById($id);
-        $brand_to_update->updateName($_POST['name']);
+        $brand_to_update->updateName($_POST['new_name']);
         $stores = $brand_to_update->getStores();
-        return $app['twig']->render("brand_info.html.twig", array('brand' => $brand_to_update, 'stores' => $stores));
+        return $app['twig']->render("brand_info.html.twig", array('brand' => $brand_to_update, 'stores' => $stores, 'message' => $message));
     });
     // UPDATE STORE ROUTE 
     // updates name and refreshes individual store page with updated name
+    // must have 'message' variable to send to store.info page 
     $app->patch("/store/{id}/update", function($id) use ($app){
+        $message = null;
         $store_to_update = Store::findById($id);
-        $store_to_update->updateName($_POST['name']);
+        $store_to_update->updateName($_POST['new_name']);
         $stores = $store_to_update->getBrands();
-        return $app['twig']->render("store_info.html.twig", array('store' => $store_to_update, 'brands' => $brands));
+        return $app['twig']->render("store_info.html.twig", array('store' => $store_to_update, 'brands' => $brands, 'message' => $message));
     });
     // DELETE BRAND ROUTE 
     // deletes brand and takes user to confimation page with main links
-    $app-delete("brand/{id}/deleted", function($id) use ($app){
+    $app->delete("brand/{id}/deleted", function($id) use ($app){
         $brand_to_delete = Brand::findById($id);
         $brand_to_delete->delete();
         return $app['twig']->render("confirm_delete.html.twig");
     });
     // DELETE STORE ROUTE 
     // deletes store and takes user to confimation page with main links
-    $app-delete("store/{id}/deleted", function($id) use ($app){
+    $app->delete("store/{id}/deleted", function($id) use ($app){
         $store_to_delete = Store::findById($id);
         $store_to_delete->delete();
         return $app['twig']->render("confirm_delete.html.twig");

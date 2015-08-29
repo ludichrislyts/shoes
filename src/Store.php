@@ -37,12 +37,12 @@
 			$store_check = null;
 			$store_check = Store::findByName($this->getName());
 			if($store_check == null){
-				echo "saved";
+				//echo "saved";
 				$GLOBALS['DB']->exec("INSERT INTO stores (name) VALUES ('{$this->getName()}');");
 				$this->id = $GLOBALS['DB']->lastInsertId();
 				return false;				
 			}else{
-				echo "already there";
+				//echo "already there";
 				return $store_check;
 			}
 		}
@@ -61,6 +61,9 @@
 
 		function addBrand($brand_to_add)
 		{
+			//var_dump($brand_to_add);
+			$this->getId();
+			$brand_to_add->getId();
 			$GLOBALS['DB']->exec("INSERT INTO brands_stores (brand_id, store_id) VALUES ({$brand_to_add->getId()}, {$this->getId()});");
 		}
 		

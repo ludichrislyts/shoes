@@ -57,7 +57,7 @@
 		function updateName($new_name)
 		{
 			$GLOBALS['DB']->exec("UPDATE brands SET name = '{$new_name}' WHERE id = {$this->getId()};");
-			$this->name = $newName;
+			$this->name = $new_name;
 		}
 		
 		function delete()
