@@ -18,4 +18,6 @@
         //         $old_name = $bnd['name'];
         //         $old_id = $bnd['id'];
         //         $old_brand = new Brand($old_name, $old_id);                
-        // }            
+        // }         
+        
+            background: url('../../img/background.jpg') no-repeat center center fixed;   

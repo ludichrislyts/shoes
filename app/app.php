@@ -70,7 +70,6 @@
         $name = $_POST['name'];
         $new_store = new Store($name);
         $id = $new_store->save();
-        //var_dump($id);
         if($id == false){
             $stores = Store::getAll();
             return $app['twig']->render("stores.html.twig", array('stores' => $stores));
@@ -87,19 +86,15 @@
         $already_exists_message = false; // flags to see if in the join table
         $name = $_POST['name'];
         $new_store = new Store($name);
-       // var_dump($new_store);
         $brand = Brand::findById($id);
         //getting id if already saved
         $exists = $new_store->save();
         // if new entry, proceed as usual
         if($exists == false){
-            echo "exists == false";
             $brand->addStore($new_store);
-        }else{ // 
-            echo "entering else loop";
+        }else{
         // if already saved, check for existence in join table as well   
-            $db_brands_stores = $brand->getStores();
-            //var_dump($db_brands_stores);         
+            $db_brands_stores = $brand->getStores();    
             // making sure array is not empty so page won't crash
             if(count($db_brands_stores) != 0){
                 foreach($db_brands_stores as $sto){
@@ -130,7 +125,6 @@
         //getting id if already saved
         $exists = $new_brand->save();
         // if new entry, proceed as usual
-        //var_dump($new_brand);
         if($exists == FALSE){
             echo "exists == false) ";
             $store->addBrand($new_brand);
@@ -151,11 +145,9 @@
         // add to join table
         if($already_exists_message == false && $exists != FALSE){
             $brand_to_add_to_join = Brand::findById($exists);
-            var_dump($brand_to_add_to_join);
             $store->addBrand($brand_to_add_to_join);
         }
         $brands = $store->getBrands();
-        //var_dump($store);
         return $app['twig']->render("store_info.html.twig", array('store' => $store, 'brands' => $brands, 'message' => $already_exists_message));
     });
     // UPDATE BRAND ROUTE 
@@ -180,20 +172,19 @@
     });
     // DELETE BRAND ROUTE 
     // deletes brand and takes user to confimation page with main links
-    $app->delete("brand/{id}/deleted", function($id) use ($app){
+    $app->delete("brand/{id}/delete", function($id) use ($app){
         $brand_to_delete = Brand::findById($id);
+        $name_to_echo = $brand_to_delete->getName();
         $brand_to_delete->delete();
-        return $app['twig']->render("confirm_delete.html.twig");
+        return $app['twig']->render("confirm_delete.html.twig", array('name' => $name_to_echo, 'brands' => TRUE, 'stores' => FALSE));
     });
     // DELETE STORE ROUTE 
     // deletes store and takes user to confimation page with main links
-    $app->delete("store/{id}/deleted", function($id) use ($app){
+    $app->delete("store/{id}/delete", function($id) use ($app){
         $store_to_delete = Store::findById($id);
+        $name_to_echo = $store_to_delete->getName();
         $store_to_delete->delete();
-        return $app['twig']->render("confirm_delete.html.twig");
-    });    
-    
-
-
+        return $app['twig']->render("confirm_delete.html.twig", array('name' => $name_to_echo, 'stores' => TRUE, 'brands' => FALSE));
+    });
     return $app;
 ?>

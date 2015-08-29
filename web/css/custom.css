@@ -1,12 +1,15 @@
 html, body {
     height: 100%;
-    background: url('../../img/background.jpg') no-repeat center center fixed;
+    background: url('../../img/background.jpg') no-repeat center center fixed; 
     -webkit-background-size: cover;
     -moz-background-size: cover;
     -o-background-size: cover;
     background-size: cover;
     color: #980D0D !important;
-    background-color: aquamarine;
+}
+#main_display{
+    background-color: black !important;
+    height:100%;
 }
 div {
     font-family: 'PT Sans', sans-serif;
