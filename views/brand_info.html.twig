@@ -34,6 +34,9 @@
                     <input id="name" name="name" type="text" required>
                     <button type="submit" class="btn-md">Add store</button>
                 </form>
+                {% if message == true %}
+                    <h4 style="color:red">That store is already represented</h4>
+                {% endif %}
             <br>
             </div>
 

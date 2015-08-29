@@ -35,9 +35,10 @@
     // SINGLE BRAND ROUTE - DISPLAY SINGLE BRAND PAGE AND OPTION TO ADD A STORE
     // if user adds a store to this brand, add store and reload this page
      $app->get("/brand/{id}", function($id) use($app){
+       $already_exists_message = false;// need this for the already added user input       
         $brand = Brand::findById($id);
         $brand_stores = $brand->getStores();
-        return $app['twig']->render("brand_info.html.twig", array('brand' => $brand, 'stores' => $brand_stores));
+        return $app['twig']->render("brand_info.html.twig", array('brand' => $brand, 'stores' => $brand_stores, 'message' => $already_exists_message));
         });
     // INDIVIDUAL STORE ROUTE - DISPLAY THIS PAGE WHEN A USER CLICKS ON A STORE
     // Displays brands this store carries, option to add a brand
@@ -89,27 +90,36 @@
     // if user adds a store to this brand, add store and reload this page
     //checks for multiple entries
     $app->post("/brand/{id}/add_store", function($id) use ($app){
-        $already_exists_message;
+        $already_exists_message = false; // flags to see if in the join table
         $name = $_POST['name'];
         $new_store = new Store($name);
+       // var_dump($new_store);
         $brand = Brand::findById($id);
         //getting id if already saved
         $exists = $new_store->save();
         // if new entry, proceed as usual
         if($exists == false){
+            echo "exists == false";
             $brand->addStore($new_store);
-        }else{
+        }else{ // 
+            echo "entering else loop";
         // if already saved, check for existence in join table as well   
-            $db_brands_stores = $brand->getStores();         
-            // making sure array is not empty
+            $db_brands_stores = $brand->getStores();
+            //var_dump($db_brands_stores);         
+            // making sure array is not empty so page won't crash
             if(count($db_brands_stores) != 0){
-                foreach($db_brands_stores as $bnd){
-                    $id = $bnd->getId();
-                    if($exists == $id){
+                foreach($db_brands_stores as $sto){
+                    $id = $sto->getId();
+                    if($exists == $id){ // 
                         $already_exists_message = true;
                     }                     
                 }
             }
+        }
+        // if not a new store, but not in the join table
+        if($already_exists_message == false){
+            $store_to_add_to_join = Store::findById($exists);
+            $brand->addStore($store_to_add_to_join);
         }
         $stores = $brand->getStores();
         return $app['twig']->render("brand_info.html.twig", array('stores' => $stores, 'brand' => $brand, 'message' => $already_exists_message));     
@@ -118,7 +128,7 @@
     // ADDS BRAND TO STORE, REFRESHES INDIVIDUAL STORE PAGE
     // checks for multiple entries
     $app->post("/store/{id}/add_brand", function($id) use ($app){
-        $already_exists_message = false;
+        $already_exists_message = false; //flags to see if in the join table
         $name = $_POST['name'];
         $new_brand = new Brand($name);
         $store = Store::findById($id);
@@ -132,13 +142,18 @@
             $db_brands_stores = $store->getBrands();  
             // making sure array is not empty
             if(count($db_brands_stores) != 0){
-                foreach($db_brands_stores as $sto){
-                    $id = $sto->getId();
-                    if($exists == $id){
+                foreach($db_brands_stores as $bnd){
+                    $id = $bnd->getId();
+                    if($exists == $id){                        
                         $already_exists_message = true;
                     }                    
                 }                
             }            
+        }
+        // if not a new brand, but not in the join table
+        if($already_exists_message == false){
+            $brand_to_add_to_join = Brand::findById($exists);
+            $store->addBrand($brand_to_add_to_join);
         }
         $brands = $store->getBrands();
         //var_dump($store);
