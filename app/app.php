@@ -63,11 +63,7 @@
             $brand = Brand::findById($id);
             return $app['twig']->render("entry_exists.html.twig", array('brand' => $brand, 'store' => $dummy_store));
         }
-            
-
     });
- /////////////////////////////////////////////////////////////////////   
- /////////////////////////////////////////////////////////////////////  
       // STORE ADDED ROUTE - DISPLAY MAIN STORE PAGE 
      // this page renders after user enters a new store   
     $app->post("/store_added", function() use ($app){
@@ -84,8 +80,6 @@
             return $app['twig']->render("entry_exists.html.twig", array('store' => $store, 'brand' => $dummy_brand));
         }
     }); 
-  /////////////////////////////////////////////////////////////////////   
-   /////////////////////////////////////////////////////////////////////   
     // ADDED STORE TO BRAND ROUTE - ADD STORE FROM USER AND REFRESH SINGLE BRAND PAGE
     // if user adds a store to this brand, add store and reload this page
     //checks for multiple entries
@@ -159,6 +153,37 @@
         //var_dump($store);
         return $app['twig']->render("store_info.html.twig", array('store' => $store, 'brands' => $brands, 'message' => $already_exists_message));
     });
+    // UPDATE BRAND ROUTE 
+    // updates name and refreshes individual brand page with updated name
+    $app->patch("/brand/{id}/update", function($id) use ($app){
+        $brand_to_update = Brand::findById($id);
+        $brand_to_update->updateName($_POST['name']);
+        $stores = $brand_to_update->getStores();
+        return $app['twig']->render("brand_info.html.twig", array('brand' => $brand_to_update, 'stores' => $stores));
+    });
+    // UPDATE STORE ROUTE 
+    // updates name and refreshes individual store page with updated name
+    $app->patch("/store/{id}/update", function($id) use ($app){
+        $store_to_update = Store::findById($id);
+        $store_to_update->updateName($_POST['name']);
+        $stores = $store_to_update->getBrands();
+        return $app['twig']->render("store_info.html.twig", array('store' => $store_to_update, 'brands' => $brands));
+    });
+    // DELETE BRAND ROUTE 
+    // deletes brand and takes user to confimation page with main links
+    $app-delete("brand/{id}/deleted", function($id) use ($app){
+        $brand_to_delete = Brand::findById($id);
+        $brand_to_delete->delete();
+        return $app['twig']->render("confirm_delete.html.twig");
+    });
+    // DELETE STORE ROUTE 
+    // deletes store and takes user to confimation page with main links
+    $app-delete("store/{id}/deleted", function($id) use ($app){
+        $store_to_delete = Store::findById($id);
+        $store_to_delete->delete();
+        return $app['twig']->render("confirm_delete.html.twig");
+    });    
+    
 
 
     return $app;
