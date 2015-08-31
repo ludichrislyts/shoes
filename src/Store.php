@@ -107,11 +107,14 @@
 		//returns store id
 		static function findByName($search_name)
 		{
+			// if apostrophe in the name, modify search to account for 
+			// single/double quote SQL issue
+			$single_quote_name = str_replace(["''"], "'", $search_name);
 			$found_store_id = null;
 			$db_stores = $GLOBALS['DB']->query("SELECT * FROM stores WHERE name = '{$search_name}';");
 			foreach($db_stores as $store){
 				$name = $store['name'];
-				if($name == $search_name){
+				if($name == $single_quote_name){
 					$found_store_id = $store['id'];
 				}
 			}

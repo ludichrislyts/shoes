@@ -51,7 +51,9 @@
      // BRAND ADDED ROUTE - DISPLAY MAIN BRAND PAGE
      // this page renders after user enters a new brand from individual brand page
     $app->post("/brand_added", function() use ($app){
-        $name = $_POST['name'];
+        $raw_name = $_POST['name'];
+        // account for an "'" in the user input (SQL no likey)
+        $name = str_replace(["'"], "''", $raw_name);
         $brand_to_add = new Brand($name);
         // get id# if brand already exists.
         $id = $brand_to_add->save();
@@ -67,7 +69,9 @@
       // STORE ADDED ROUTE - DISPLAY MAIN STORE PAGE
      // this page renders after user enters a new store
     $app->post("/store_added", function() use ($app){
-        $name = $_POST['name'];
+        $raw_name = $_POST['name'];
+        // account for an "'" in the user input (SQL no likey)
+        $name = str_replace(["'"], "''", $raw_name);
         $new_store = new Store($name);
         $id = $new_store->save();
         if($id == false){
@@ -84,7 +88,9 @@
     //checks for multiple entries
     $app->post("/brand/{id}/add_store", function($id) use ($app){
         $already_exists_message = false; // flags to see if in the join table
-        $name = $_POST['name'];
+        $raw_name = $_POST['name'];
+        // account for an "'" in the user input (SQL no likey)
+        $name = str_replace(["'"], "''", $raw_name);
         $new_store = new Store($name);
         $brand = Brand::findById($id);
         //getting id if already saved
@@ -119,7 +125,9 @@
     // checks for multiple entries
     $app->post("/store/{id}/add_brand", function($id) use ($app){
         $already_exists_message = false; //flags to see if in the join table
-        $name = $_POST['name'];
+        $raw_name = $_POST['name'];
+        // account for an "'" in the user input (SQL no likey)
+        $name = str_replace(["'"], "''", $raw_name);
         $new_brand = new Brand($name);
         $store = Store::findById($id);
         //getting id if already saved

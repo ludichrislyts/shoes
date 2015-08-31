@@ -107,17 +107,21 @@
 		//returns brand id
 		static function findByName($search_name)
 		{
+			// if apostrophe in the name, modify search to account for 
+			// single/double quote SQL issue
+			$single_quote_name = str_replace(["''"], "'", $search_name);
 			$found_brand_id = null;
 			$db_brands = $GLOBALS['DB']->query("SELECT * FROM brands WHERE name = '{$search_name}';");
-			foreach($db_brands as $brand){
-				$name = $brand['name'];
-				if($name == $search_name){
-					$found_brand_id = $brand['id'];
-				}
+			if(!empty($db_brands)){
+				foreach($db_brands as $brand){
+					$name = $brand['name'];
+					if($name == $single_quote_name){
+						$found_brand_id = $brand['id'];
+					}
+				}				
 			}
 			return $found_brand_id;
 		}
-
 
 		static function deleteAll()
 		{

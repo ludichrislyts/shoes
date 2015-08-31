@@ -10,14 +10,15 @@
          <div class="container" id="main_display">
             <div class="col-md-8" id="col-display">
                 <h1>Shoe Central<h1>
-                <h2>Brand Catalogue</h2>
 				{% if brand is not empty %}
-                    <h2>Sorry, that brand already exists in our database!</h2>
+                    <h2>Brand Catalogue</h2>
+                    <h2 style="color:red !important">Sorry, that brand already exists in our database!</h2>
 					<a href="/brand/{{ brand.getId }}">Go to the {{ brand.getName() }} main page</a>
                     <br>
                     <a href="/brands">Go back to the main brands page</a>
 				{% elseif store is not empty %}
-                    <h2>Sorry, that store already exists in our database!</h2>
+                    <h2>Store Index</h2>
+                    <h2 style="color:red !important">Sorry, that store already exists in our database!</h2>
 					<a href="/store/{{ store.getId }}">Go to the {{ store.getName() }} main page</a>
                     <br>
                     <a href="/stores">Go back to the main stores page</a>
