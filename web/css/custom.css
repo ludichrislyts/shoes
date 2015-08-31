@@ -7,11 +7,14 @@ html, body {
     background-size: cover;
     color: #980D0D !important;
 }
+#full-height{
+    height: 100%;
+}
 #main_display{
     margin-top: 20px;
     background-color: black !important;
-    opacity: 0.8;
-    height:95%;
+    opacity: 0.85;
+    height:100%;
 }
 #col-display{
     padding-top: 7%;

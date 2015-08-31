@@ -27,34 +27,34 @@
 
                 <h4>Did we miss something? If you've seen shoes for sale in this store, please let us know!:</h4>
                 <form action="/store/{{ store.getId }}/add_brand" method="post">
-                    <input id="id" name="id" type="hidden" value="{{ store.getId() }}">
-                    <label for="name">Enter a new brand: </label>
-                    <input id="name" name="name" type="text" required>
+                    <div class="form-group">
+                        <input id="id" name="id" type="hidden" value="{{ store.getId() }}">
+                        <label for="name">Enter a new brand: </label>
+                        <input class="form-control" id="name" name="name" type="text" required>
+                    </div>
                     <button type="submit" class="btn-md">Add brand</button>
                 </form>
                 {% if message == true %}
                 <h4 style="color:red">This store already carries that brand</h4>
                 {% endif %}
                 <br>
-                <div class="row" style="padding:15px">
-                    <h4>Need to correct or change the store name?</h4>
-                    <p>Give them a new identity!</p>
-                    <form action="/store/{{ store.getId }}/update" method="post">
+                <h4>Need to correct or change the store name?</h4>
+                <p>Give them a new identity!</p>
+                <form action="/store/{{ store.getId }}/update" method="post">
+                    <div class="form-group">
                         <input type="hidden" name="_method" value="patch">
-                         <label for="new_name">Enter the updated/corrected store name: </label>
-                        <input type="text" name="new_name" id="new_name" required>
-                        <button type="submit" class="btn-xs-primary">Update</button>
-                    </form>
-                </div>
+                        <label for="new_name">Enter the updated/corrected store name: </label>
+                        <input class="form-control" type="text" name="new_name" id="new_name" required>
+                    </div>
+                    <button type="submit" class="btn-xs-primary">Update</button>
+                </form>
+                <h5>Has this store gone out of business?</h5>
+                <p>Remove it from the store index!</p>
+                <form action="/store/{{ store.getId }}/delete" method="post">
+                    <input type="hidden" name="_method" value="delete">
+                    <button type="submit" class="btn-md-danger">Remove</button>
+                </form>
 
-                <div class="row" style="padding:15px">
-                    <h5>Has this store gone out of business?</h5>
-                    <p>Remove it from the store index!</p>
-                    <form action="/store/{{ store.getId }}/delete" method="post">
-                        <input type="hidden" name="_method" value="delete">
-                        <button type="submit" class="btn-md-danger">Remove</button>
-                    </form>
-                </div>
             </div>
             <div class="col-md-4" id="col-display">
                 <br>
